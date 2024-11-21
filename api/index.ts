@@ -1,3 +1,3 @@
 export default function handler(req, res) {
-    res.status(200).send('Hello World from Vercel API!');
+    res.status(200).send('Hello World from Vercel API .ts!');
 }
