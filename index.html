@@ -5,78 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pakistani Salary Tax Calculator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* General Reset */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background-color: #f9f9f9;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 20px;
         }
-        form {
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
             margin-bottom: 20px;
         }
+
+        form {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         label {
-            font-size: 16px;
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 8px;
         }
+
         input {
-            margin: 10px 0;
-            padding: 8px;
-            font-size: 16px;
-            width: 200px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border 0.2s;
         }
+
+        input:focus {
+            outline: none;
+            border: 1px solid #007bff;
+        }
+
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
             color: #fff;
             background-color: #007bff;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #333;
+        }
+
         #result p {
-            font-size: 16px;
-            margin: 5px 0;
+            margin-bottom: 8px;
+        }
+
+        #result strong {
+            color: #007bff;
         }
     </style>
 </head>
 <body>
-    <h1>Pakistani Salary Tax Calculator</h1>
+    <h1>Salary Tax Calculator</h1>
     <form id="tax-form">
         <label for="salary">Enter Monthly Salary (PKR):</label>
-        <input type="number" id="salary" name="salary" required>
+        <input type="number" id="salary" name="salary" placeholder="e.g., 50,000" required>
         <button type="submit">Calculate Tax</button>
     </form>
     <div id="result"></div>
+
     <script>
         const form = document.getElementById('tax-form');
-const resultDiv = document.getElementById('result');
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const salary = document.getElementById('salary').value;
-    try {
-        const response = await fetch(`/api/calculate-tax?salary=${salary}`);
-        const data = await response.json();
-        if (data.error) {
-            resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
-        } else {
-            resultDiv.innerHTML = `
-                <p><strong>Monthly Salary:</strong> PKR ${data.monthlySalary}</p>
-                <p><strong>Annual Salary:</strong> PKR ${data.annualSalary}</p>
-                <p><strong>Annual Tax:</strong> PKR ${data.annualTax}</p>
-                <p><strong>Monthly Tax:</strong> PKR ${data.monthlyTax.toFixed(2)}</p>
-            `;
-        }
-    } catch (error) {
-        resultDiv.innerHTML = `<p style="color: red;">Something went wrong. Please try again later.</p>`;
-    }
-});
-
+        const resultDiv = document.getElementById('result');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const salary = document.getElementById('salary').value;
+            try {
+                const response = await fetch(`/api/calculate-tax?salary=${salary}`);
+                const data = await response.json();
+                if (data.error) {
+                    resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p><strong>Monthly Salary:</strong> PKR <strong>${data.monthlySalary.toLocaleString()}</strong></p>
+                        <p><strong>Annual Salary:</strong> PKR <strong>${data.annualSalary.toLocaleString()}</strong></p>
+                        <p><strong>Annual Tax:</strong> PKR <strong>${data.annualTax.toLocaleString()}</strong></p>
+                        <p><strong>Monthly Tax:</strong> PKR <strong>${data.monthlyTax.toFixed(2).toLocaleString()}</strong></p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Something went wrong. Please try again later.</p>`;
+            }
+        });
     </script>
 </body>
 </html>
