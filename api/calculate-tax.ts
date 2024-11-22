@@ -8,16 +8,18 @@ export default function handler(req, res) {
     const annualSalary = salary * 12;
     let tax = 0;
 
-    // Pakistani tax brackets
+    // Updated Pakistani tax brackets for FY 2024-2025
     if (annualSalary > 600000) {
         if (annualSalary <= 1200000) {
             tax = (annualSalary - 600000) * 0.05;
-        } else if (annualSalary <= 2400000) {
-            tax = (1200000 - 600000) * 0.05 + (annualSalary - 1200000) * 0.1;
-        } else if (annualSalary <= 3600000) {
-            tax = (1200000 - 600000) * 0.05 + (2400000 - 1200000) * 0.1 + (annualSalary - 2400000) * 0.15;
+        } else if (annualSalary <= 2200000) {
+            tax = 30000 + (annualSalary - 1200000) * 0.15;
+        } else if (annualSalary <= 3200000) {
+            tax = 180000 + (annualSalary - 2200000) * 0.25;
+        } else if (annualSalary <= 4100000) {
+            tax = 430000 + (annualSalary - 3200000) * 0.30;
         } else {
-            tax = (1200000 - 600000) * 0.05 + (2400000 - 1200000) * 0.1 + (3600000 - 2400000) * 0.15 + (annualSalary - 3600000) * 0.2;
+            tax = 700000 + (annualSalary - 4100000) * 0.35;
         }
     }
 
